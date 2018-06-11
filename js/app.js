@@ -1,8 +1,8 @@
 "use strict";
 
-const numberInput = getFromUI('#number');
-const resultMessage = getFromUI('#result');
-const playButton = getFromUI('#play');
+const numberInput = getFromUI('number');
+const resultMessage = getFromUI('result');
+const playButton = getFromUI('play');
 
 // Focus the input when the page loads
 window.onload = function() {
@@ -21,10 +21,13 @@ document.getElementById('game').addEventListener('submit', function(e) {
 });
 
 const game = {
+
+    // Properties
     number: randomNumber(),
     attempts: 3,
     isOver: false,
-
+    
+    // Methods
     restart: function() {
         // Restart the stats and set a new random number
         this.number = randomNumber();
@@ -41,6 +44,8 @@ const game = {
     },
 
     guess: function() {
+        // Subtract an attempt
+        this.attempts -= 1;
         // Get the number of the player
         let playerNumber = Number(numberInput.value);
         // Reset the input value
@@ -51,17 +56,15 @@ const game = {
         if (playerNumber === this.number) {
             return this.win();
         }
-        // if there are no more attempts, game over
-        if (this.attempts === 1) {
-            this.lose();
-        } else {
+        // if there are still attempts, try to guess
+        if (this.attempts) {
             this.try();
+        } else {
+            this.lose();
         }
     },
 
     try: function() {
-        // Subtract an attempt
-        this.attempts -= 1;
         // Set the result message
         resultMessage.innerHTML = 'Incorrect! You have ' + this.attempts + ' attempts left';
     },
@@ -92,8 +95,8 @@ const game = {
 
 
 // UTILS
-function getFromUI(selector) {
-    return document.querySelector(selector);
+function getFromUI(id) {
+    return document.getElementById(id);
 }
 
 function randomNumber() {
