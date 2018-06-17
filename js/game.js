@@ -1,25 +1,5 @@
 "use strict";
 
-const numberInput = getFromUI('number');
-const resultMessage = getFromUI('result');
-const playButton = getFromUI('play');
-
-// Focus the input when the page loads
-window.onload = function() {
-    numberInput.focus();
-};
-
-document.getElementById('game').addEventListener('submit', function(e) {
-    // Prevent default behavior
-    e.preventDefault();
-    // Check the state of the game
-    if (game.isOver) {
-        game.restart();
-    } else {
-        game.guess();
-    }
-});
-
 const game = {
 
     // Properties
@@ -56,7 +36,7 @@ const game = {
         if (playerNumber === this.number) {
             return this.win();
         }
-        // if there are still attempts, try to guess
+        // if there are still attempts, let the player try again
         if (this.attempts) {
             this.try();
         } else {
@@ -67,6 +47,8 @@ const game = {
     try: function() {
         // Set the result message
         resultMessage.innerHTML = 'Incorrect! You have ' + this.attempts + ' attempts left';
+        // Focus the input
+        numberInput.focus();
     },
 
     win: function() {
@@ -92,13 +74,3 @@ const game = {
         playButton.focus();
     }
 };
-
-
-// UTILS
-function getFromUI(id) {
-    return document.getElementById(id);
-}
-
-function randomNumber() {
-    return Math.round(Math.random() * 9) + 1;
-}
