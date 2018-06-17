@@ -19,7 +19,7 @@ const game = {
         resultMessage.style.display = 'none';
         // Enable the input
         numberInput.disabled = false;
-        // Focus the play button
+        // Focus the input
         numberInput.focus();
     },
 
